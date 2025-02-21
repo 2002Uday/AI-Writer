@@ -4,6 +4,8 @@ import toast from 'react-hot-toast';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
@@ -24,7 +26,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/login', {
+      const response = await fetch(`${BASE_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
