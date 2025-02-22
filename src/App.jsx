@@ -24,11 +24,11 @@ function App() {
         </Route>
 
          {/* Protected routes (accessible only when logged in) */}
-         <Route element={<ProtectedRoute />}>
+         {/* <Route element={<ProtectedRoute />}> */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/brainstorm" element={<BrainstormingSession />} />
           {/* Add other protected routes here */}
-        </Route>
+        {/* </Route> */}
       </Routes>
     </>
   );

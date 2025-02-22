@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Send, Sparkles, Save, RotateCcw } from "lucide-react";
+import { Send, Sparkles } from "lucide-react";
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
 const BrainstormingSession = () => {
