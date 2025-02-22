@@ -1,82 +1,200 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaUser, FaCog, FaChartBar, FaSignOutAlt } from "react-icons/fa";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { PiLightningFill } from "react-icons/pi";
-import { MdOutlineOpenInNew } from "react-icons/md";
+import { MdOutlineOpenInNew, MdOpenInNew } from "react-icons/md";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 const Dashboard = () => {
   const location = useLocation();
   const path = location.pathname;
   const navigate = useNavigate();
+  const [chatList, setChatList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const token = Cookies.get("token");
 
-  const Logout = () => {
-    // Clear token from cookies
-    Cookies.remove("token");
-    // Redirect to login page
-    navigate("/");
+  const handleLogout = () => {
+    try {
+      Cookies.remove("token");
+      toast.success("Logged out successfully");
+      navigate("/");
+    } catch (error) {
+      toast.error("Failed to logout");
+    }
+  };
+
+  const fetchChats = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/api/chat/list`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch chat list: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      // Ensure chatList is always an array
+      setChatList(Array.isArray(data.chats) ? data.chats : []);
+    } catch (error) {
+      toast.error(error.message);
+      console.error("Error fetching chats:", error);
+      setChatList([]); // Set empty array on error
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!token) {
+      toast.error("Please login first");
+      navigate("/");
+      return;
+    }
+    fetchChats();
+  }, [token, navigate]);
+
+  const NavItem = ({ to, icon: Icon, text, external, onClick }) => {
+    const isActive = path === to;
+    const baseClasses = "flex items-center p-3 rounded cursor-pointer";
+    const activeClasses = isActive
+      ? "bg-blue-600 text-white"
+      : "hover:bg-blue-100";
+
+    if (external) {
+      return (
+        <a href={to}>
+          <li className={`${baseClasses} ${activeClasses} justify-between`}>
+            <p className="flex items-center">
+              <Icon
+                className={`mr-3 ${
+                  text === "AI Script Writer" ? "text-xl text-amber-500" : ""
+                }`}
+              />
+              {text}
+            </p>
+            <MdOutlineOpenInNew className="h-5 w-5 text-blue-600" />
+          </li>
+        </a>
+      );
+    }
+
+    if (onClick) {
+      return (
+        <button onClick={onClick} className="w-full">
+          <li className={`${baseClasses} text-red-600 hover:bg-gray-200`}>
+            <Icon className="mr-3" /> {text}
+          </li>
+        </button>
+      );
+    }
+
+    return (
+      <Link to={to}>
+        <li className={`${baseClasses} ${activeClasses}`}>
+          <Icon className="mr-3" /> {text}
+        </li>
+      </Link>
+    );
+  };
+
+  const renderContent = () => {
+    if (isLoading) {
+      return (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[1, 2, 3].map((n) => (
+            <div
+              key={n}
+              className="bg-white p-6 rounded-md shadow-md animate-pulse"
+            >
+              <div className="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
+              <div className="h-8 bg-gray-200 rounded w-1/4"></div>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    if (!Array.isArray(chatList) || chatList.length === 0) {
+      return (
+        <div className="text-center py-12">
+          <p className="text-gray-600 text-lg mb-4">No chats found</p>
+          <Link
+            to="/scripting"
+            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+          >
+            <PiLightningFill className="mr-2" />
+            Make New Script
+          </Link>
+        </div>
+      );
+    }
+
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {chatList.map((chat) => (
+          <div
+            key={chat._id}
+            className="flex bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow"
+          >
+            <p className="text-gray-800 line-clamp-2">
+              {chat.messages?.[0]?.content || "No messages"}
+            </p>
+            <Link to={`/chat/${chat._id}`}>
+              <button className="flex items-center gap-2 bg-blue-600 text-white text-sm px-2 py-1 rounded-full hover:bg-blue-700 transition-colors">
+                <MdOpenInNew />
+                View
+              </button>
+            </Link>
+          </div>
+        ))}
+      </div>
+    );
   };
 
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
-      <aside className={`bg-white w-64 p-5 shadow-md`}>
+      <aside className="bg-white w-64 p-5 shadow-md">
         <div className="flex w-full items-center justify-between mb-10">
-          <Link to="/" className="text-2xl font-bold text-blue-600">
-            WritingAI
+          <Link
+            to="/"
+            className="text-2xl font-bold text-blue-600 hover:text-blue-700 transition-colors"
+          >
+            WriterAI
           </Link>
         </div>
 
-        <ul className="space-y-4">
-          <li
-            className={`flex items-center p-3 rounded cursor-pointer ${
-              path === "/dashboard" && "bg-blue-600 text-white"
-            }`}
-          >
-            <FaChartBar className="mr-3" /> Dashboard
-          </li>
+        <ul>
+          <NavItem to="/dashboard" icon={FaChartBar} text="Dashboard" />
 
-          <p className="text-lg font-bold">AI Features :</p>
-          <a href="/brainstorm">
-            <li
-              className={`flex items-center p-3 hover:bg-blue-100 rounded cursor-pointer justify-between`}
-            >
-              <p className="flex items-center">
-                <PiLightningFill className="mr-3 text-xl text-amber-500" />
-                Brainstorm
-              </p>{" "}
-              <MdOutlineOpenInNew className="h-5 w-5 text-blue-600" />
-            </li>
-          </a>
+          <p className="text-lg font-bold mt-6">AI Features:</p>
+          <NavItem
+            to="/scripting"
+            icon={PiLightningFill}
+            text="AI Script Writer"
+            external
+          />
 
-          <button onClick={Logout}>
-            <li className="flex items-center p-3 text-red-600 hover:bg-gray-200 rounded cursor-pointer">
-              <FaSignOutAlt className="mr-3" /> Logout
-            </li>
-          </button>
+          <NavItem icon={FaSignOutAlt} text="Logout" onClick={handleLogout} />
         </ul>
       </aside>
 
       {/* Main Content */}
-      <div className="flex-1 p-6">
-        <h2 className="text-2xl font-semibold mb-4">
+      <div className="flex-1 p-6 overflow-y-auto">
+        <h2 className="text-2xl font-semibold mb-6">
           Welcome to the Dashboard
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-lg font-semibold">Total Users</h3>
-            <p className="text-2xl font-bold">9,300</p>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-lg font-semibold">Total Sales</h3>
-            <p className="text-2xl font-bold">$295.7k</p>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-lg font-semibold">New Subscribers</h3>
-            <p className="text-2xl font-bold">608</p>
-          </div>
-        </div>
+        {renderContent()}
       </div>
     </div>
   );

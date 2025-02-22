@@ -1,7 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar"; // You'll need to create this
 import Home from "./pages/Home"; // You'll need to create this
-import BrainstormingSession from "./pages/BrainstormingSession"; // You'll need to create this
+import ScriptingSession from "./pages/ScriptingSession"; // You'll need to create this
+import Chat from "./pages/Chat"; // You'll need to create this
 import { ProtectedRoute, AuthRoute } from "./middleware/auth";
 import Login from "./pages/Login"; // You'll need to create this
 import Register from "./pages/Register"; // You'll need to create this
@@ -24,7 +25,8 @@ function App() {
         {/* Protected routes (accessible only when logged in) */}
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/brainstorm" element={<BrainstormingSession />} />
+          <Route path="/scripting" element={<ScriptingSession />} />
+          <Route path="/chat/:id" element={<Chat />} />
           {/* Add other protected routes here */}
         </Route>
       </Routes>
