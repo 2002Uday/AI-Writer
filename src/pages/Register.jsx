@@ -65,7 +65,7 @@ const Register = () => {
         <div className="flex justify-center items-center mb-4">
           <a href="/login" className="text-sm text-gray-600">
             Already have an account?{" "}
-            <span className="text-blue-600 cursor-pointer hover:underline">
+            <span className="text-orange-600 cursor-pointer hover:underline">
               Login
             </span>
           </a>
@@ -77,7 +77,7 @@ const Register = () => {
               type="text"
               name="username"
               placeholder="Set your Username"
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
               value={formData.username}
               onChange={handleChange}
               required
@@ -89,7 +89,7 @@ const Register = () => {
               type="email"
               name="email"
               placeholder="Enter your email"
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
               value={formData.email}
               onChange={handleChange}
               required
@@ -101,7 +101,7 @@ const Register = () => {
               type="password"
               name="password"
               placeholder="Enter your password"
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
               value={formData.password}
               onChange={handleChange}
               required
@@ -109,7 +109,7 @@ const Register = () => {
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-orange-600 text-white py-2 rounded-lg hover:bg-orange-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={loading}
           >
             {loading ? 'Signing up...' : 'Sign Up'}

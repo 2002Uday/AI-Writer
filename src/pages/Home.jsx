@@ -63,10 +63,11 @@ const Home = () => {
             AI-powered scriptwriting, storyboarding, and content creation.
             Streamline your workflow and unleash creativity like never before.
           </p>
-
-          <button className="bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 rounded-xl font-bold text-lg transform transition-all duration-300">
-            Start Creating Now
-          </button>
+          <Link to="/dashboard">
+            <button className="bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 rounded-xl font-bold text-lg transform transition-all duration-300">
+              Start Creating Now
+            </button>
+          </Link>
 
           <div className="mt-20 animate-bounce">
             <svg
