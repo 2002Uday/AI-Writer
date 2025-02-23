@@ -8,14 +8,14 @@ function Navbar() {
   const token = Cookies.get("token");
   return (
     <nav
-      className={`bg-white fixed w-full shadow-sm ${
+      className={`bg-white fixed w-full shadow-sm z-50 ${
         path === "/dashboard" && "hidden"
       }`}
     >
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           <div className="flex-shrink-0">
-            <Link to="/" className="text-2xl font-bold text-blue-600">
+            <Link to="/" className="text-2xl font-bold text-orange-500">
               WriterAI
             </Link>
           </div>
@@ -30,7 +30,7 @@ function Navbar() {
               </Link>
               <Link
                 to="/register"
-                className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700"
+                className="bg-gradient-to-r from-amber-400 to-orange-500 text-white px-4 py-2 rounded-md text-sm font-medium "
               >
                 Register
               </Link>
@@ -38,7 +38,7 @@ function Navbar() {
           ) : (
             <Link
               to="/dashboard"
-              className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700"
+              className="bg-gradient-to-r from-amber-400 to-orange-500 text-white px-4 py-2 rounded-md text-sm font-medium"
             >
               Dashboard
             </Link>

@@ -142,7 +142,7 @@ const ScriptingSession = () => {
           <div className="space-y-4 p-4">
             <div className="bg-white rounded-lg shadow-sm p-6">
               <div className="flex items-center space-x-3 mb-4">
-                <Sparkles className="h-6 w-6 text-blue-600" />
+                <Sparkles className="h-6 w-6 text-orange-600" />
                 <h1 className="text-2xl font-bold text-gray-900">
                   Creative Scripting
                 </h1>
@@ -159,13 +159,13 @@ const ScriptingSession = () => {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask anything about your story, characters, or plot..."
-                  className="w-full h-28 p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                  className="w-full h-32 p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
                   disabled={isLoading}
                 />
                 <button
                   type="submit"
                   disabled={isLoading || !input.trim()}
-                  className="flex items-center px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="flex items-center px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   <Send className="h-4 w-4 mr-2" />
                   {isLoading ? "Sending..." : "Send"}
@@ -186,7 +186,7 @@ const ScriptingSession = () => {
                   <div
                     className={`max-w-2xl p-2 rounded-2xl ${
                       message.role === "user"
-                        ? "bg-blue-500 text-white rounded-br-none"
+                        ? "bg-orange-500 text-white rounded-br-none"
                         : "bg-gray-200 rounded-bl-none"
                     }`}
                   >
@@ -218,13 +218,13 @@ const ScriptingSession = () => {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask anything about your story, characters, or plot..."
-                  className="flex-1 p-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="flex-1 p-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500"
                   disabled={isLoading}
                 />
                 <button
                   type="submit"
                   disabled={isLoading || !input.trim()}
-                  className="flex items-center px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="flex items-center px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   <Send className="h-4 w-4 mr-2" />
                   {isLoading ? "Sending..." : "Send"}

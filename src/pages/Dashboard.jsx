@@ -5,6 +5,7 @@ import { PiLightningFill } from "react-icons/pi";
 import { MdOutlineOpenInNew, MdOpenInNew } from "react-icons/md";
 import Cookies from "js-cookie";
 import { toast } from "react-hot-toast";
+import { FaPlus } from "react-icons/fa6";
 
 const Dashboard = () => {
   const location = useLocation();
@@ -67,8 +68,8 @@ const Dashboard = () => {
     const isActive = path === to;
     const baseClasses = "flex items-center p-3 rounded cursor-pointer";
     const activeClasses = isActive
-      ? "bg-blue-600 text-white"
-      : "hover:bg-blue-100";
+      ? "bg-orange-500 text-white"
+      : "hover:bg-white hover:text-gray-800";
 
     if (external) {
       return (
@@ -82,7 +83,7 @@ const Dashboard = () => {
               />
               {text}
             </p>
-            <MdOutlineOpenInNew className="h-5 w-5 text-blue-600" />
+            <MdOutlineOpenInNew className="h-5 w-5 text-orange-600" />
           </li>
         </a>
       );
@@ -130,7 +131,7 @@ const Dashboard = () => {
           <p className="text-gray-600 text-lg mb-4">No chats found</p>
           <Link
             to="/scripting"
-            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+            className="inline-flex items-center px-4 py-2 bg-orange-500 text-white rounded-xl rounded-mdtransition-colors"
           >
             <PiLightningFill className="mr-2" />
             Make New Script
@@ -144,19 +145,24 @@ const Dashboard = () => {
         {chatList.map((chat) => (
           <div
             key={chat._id}
-            className="flex bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow"
+            className="flex justify-between bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow"
           >
             <p className="text-gray-800 line-clamp-2">
               {chat.messages?.[0]?.content || "No messages"}
             </p>
             <Link to={`/chat/${chat._id}`}>
-              <button className="flex items-center gap-2 bg-blue-600 text-white text-sm px-2 py-1 rounded-full hover:bg-blue-700 transition-colors">
+              <button className="flex items-center gap-2 bg-orange-600 text-white text-sm px-2 py-1 rounded-full hover:bg-orange-700 transition-colors">
                 <MdOpenInNew />
                 View
               </button>
             </Link>
           </div>
         ))}
+        <div className="text-white p-6 w-fit rounded-md shadow-md hover:shadow-xl border-2 group hover:bg-orange-500 hover:text-white border-orange-500 border-dashed">
+          <Link to={`/scripting`}>
+            <FaPlus className="text-4xl text-orange-500 group-hover:text-white" />
+          </Link>
+        </div>
       </div>
     );
   };
@@ -164,11 +170,11 @@ const Dashboard = () => {
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
-      <aside className="bg-white w-64 p-5 shadow-md">
+      <aside className="bg-neutral-900 text-white w-64 p-5 shadow-md">
         <div className="flex w-full items-center justify-between mb-10">
           <Link
             to="/"
-            className="text-2xl font-bold text-blue-600 hover:text-blue-700 transition-colors"
+            className="text-2xl font-bold text-orange-500 transition-colors"
           >
             WriterAI
           </Link>
